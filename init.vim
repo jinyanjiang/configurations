@@ -1,4 +1,7 @@
 call plug#begin('~/.config/nvim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
 Plug 'fatih/vim-go'
 Plug 'gsiano/vmux-clipboard'
 Plug 'vivien/vim-linux-coding-style'

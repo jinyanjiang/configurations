@@ -4,7 +4,7 @@ docker run --name jinyj-bullseye-vimenv -Pit -v /home/jinyj/data:/data/  -v /var
 
 sed -i 's/deb.debian.org/10.111.69.170:4080/' /etc/apt/sources.list
 apt update
-apt install -y wget python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh yarn
+apt install -y gcc wget python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh yarn
 sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 mkdir /run/sshd
 /usr/sbin/sshd

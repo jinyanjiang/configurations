@@ -8,6 +8,9 @@ export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
+go env -w GOPROXY=https://goproxy.cn,direct\n
+go env -w GO111MODULE=on
+
 转回config-vim，配置vim+go
 
 install vim-go
