@@ -1,12 +1,11 @@
-docker run --name jinyj-bullseye-vimenv –Pit --net=host  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix  -v $HOME/.Xauthority:/root/.Xauthority -v /home/jinyj/data:/data/  -v /var/run/docker.sock:/var/run/docker.sock --privileged  --cap-add=ALL -v /sys/fs/cgroup:/sys/fs/cgroup:rw debian:bullseye /bin/bash
+#docker run --name jinyj-bullseye-vimenv -Pit --net=host  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix  -v $HOME/.Xauthority:/root/.Xauthority -v /home/jinyj/data:/data/  -v /var/run/docker.sock:/var/run/docker.sock --privileged  --cap-add=ALL -v /sys/fs/cgroup:/sys/fs/cgroup:rw debian:bullseye /bin/bash
 
-docker run --name jinyj-bullseye-vimenv –Pit -v /home/jinyj/data:/data/  -v /var/run/docker.sock:/var/run/docker.sock --privileged  --cap-add=ALL -v /sys/fs/cgroup:/sys/fs/cgroup:rw debian:bullseye /bin/bash
+docker run --name jinyj-bullseye-vimenv -Pit -v /home/jinyj/data:/data/  -v /var/run/docker.sock:/var/run/docker.sock --privileged  --cap-add=ALL -v /sys/fs/cgroup:/sys/fs/cgroup:rw debian:bullseye /bin/bash
 
 sed -i 's/deb.debian.org/10.111.69.170:4080/' /etc/apt/sources.list
 apt update
-apt install -y python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh
-sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes
-/g" /etc/ssh/sshd_config
+apt install -y wget python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh yarn
+sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 mkdir /run/sshd
 /usr/sbin/sshd
 ssh-keygen
@@ -20,16 +19,18 @@ export all_proxy=10.128.5.109:3129
 #python -m pip install --user --upgrade pynvim
 
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"x
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 vim ~/.config/nvim/init.vim
 /*init.vim 即为vimrc，需要把所有~/.vim/vimrc的配置放到该文件*/
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'fatih/vim-go'
+Plug 'gsiano/vmux-clipboard'
+Plug 'vivien/vim-linux-coding-style'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
@@ -40,6 +41,8 @@ call plug#end()
 
 启动vim
 :PlugInstall
+
+转到go.install, 安装所有go env
 
 启动vim
 :CocConfig
@@ -59,9 +62,20 @@ call plug#end()
         },
         "highlight": { "lsRanges": true }
       }
+    },
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
     }
+
   }
 }
+
+CocInstall coc-go
 
 在源码工程目录下：
 echo "clang++\n%cpp -std=c++17\n-Iheaders" > .ccls

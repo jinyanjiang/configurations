@@ -1,9 +1,9 @@
 call plug#begin('~/.config/nvim/plugged')
+Plug 'fatih/vim-go'
 Plug 'gsiano/vmux-clipboard'
 Plug 'vivien/vim-linux-coding-style'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-"Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
@@ -323,3 +323,29 @@ set statusline+=%f\ %l,%c
 set clipboard+=unnamedplus
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
+
+"==============================================================================
+" vim-go 插件
+"==============================================================================
+let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
+
+let g:godef_split=2
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+"let g:ale_linters = {
+"  \ 'go': ['gopls'],
+"  \}

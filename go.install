@@ -1,0 +1,42 @@
+export all_proxy=10.128.5.109:3129 && export http_proxy=10.128.5.109:3129 && export https_proxy=10.128.5.109:3129 && export ftp_proxy=10.128.5.109:3129
+https://golang.google.cn/dl/
+wget https://golang.google.cn/dl/go1.15.7.linux-amd64.tar.gz
+tar xzvf go*.linux-amd64.tar.gz -C /usr/local/
+mkdir -p $HOME/go/{bin,pkg,src}
+vim /etc/profile.d/go.sh
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+转回config-vim，配置vim+go
+
+install vim-go
+
+:GoInstallBinaries
+
+:CocInstall coc-go
+export all_proxy=  && export http_proxy= && export https_proxy= && export ftp_proxy=
+
+
+"==============================================================================
+" vim-go 插件
+"==============================================================================
+let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
+
+let g:godef_split=2
+
+let g:ale_linters = {
+  \ 'go': ['gopls'],
+  \}
