@@ -2,9 +2,12 @@
 
 docker run --name jinyj-bullseye-vimenv -Pit -v /home/jinyj/data:/data/  -v /var/run/docker.sock:/var/run/docker.sock --privileged  --cap-add=ALL -v /sys/fs/cgroup:/sys/fs/cgroup:rw debian:bullseye /bin/bash
 
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 sed -i 's/deb.debian.org/10.111.69.170:4080/' /etc/apt/sources.list
 apt update
-apt install -y gcc wget python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh yarn
+apt install -y gcc wget python python3 git zsh neovim universal-ctags python3-neovim global ripgrep clang ccls vim-ale curl nodejs ssh npm build-essential fakeroot libncurses5-dev libssl-dev ccache bison flex libelf-dev bc
+
 sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 mkdir /run/sshd
 /usr/sbin/sshd
