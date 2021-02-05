@@ -1,18 +1,63 @@
 call plug#begin('~/.config/nvim/plugged')
-Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
-Plug 'vim-airline/vim-airline'
-Plug 'fatih/vim-go'
-Plug 'gsiano/vmux-clipboard'
-Plug 'vivien/vim-linux-coding-style'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
-Plug 'skywind3000/vim-preview'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-scripts/taglist.vim'
+	Plug 'rking/ag.vim'
+	Plug 'scrooloose/nerdtree'
+	Plug 'majutsushi/tagbar'
+	Plug 'vim-airline/vim-airline'
+	Plug 'fatih/vim-go'
+	Plug 'vivien/vim-linux-coding-style'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'jackguo380/vim-lsp-cxx-highlight'
+	Plug 'ludovicchabant/vim-gutentags'
+	Plug 'skywind3000/gutentags_plus'
+	Plug 'skywind3000/vim-preview'
+	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+	Plug 'junegunn/fzf.vim'
+	Plug 'morhetz/gruvbox'
+	Plug 'tomasr/molokai'
+	Plug 'jreybert/vimagit'
+	Plug 'chemzqm/denite-extra'
+        if version >= 704 || version ==703 && has('patch005')
+            Plug 'mbbill/undotree'
+        endif
+        Plug 'mattn/emmet-vim'
+        Plug 'dhruvasagar/vim-table-mode'
+        Plug 'machakann/vim-sandwich'
+        Plug 'wellle/targets.vim'
+        Plug 'kshenoy/vim-signature'
+        Plug 'scrooloose/nerdcommenter'
+        Plug 'Raimondi/delimitMate'
+        if version >= 704 && has('python3')
+            Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+        endif
+        Plug 'junegunn/vim-easy-align'
+        Plug 'junegunn/goyo.vim'
+        Plug 'junegunn/limelight.vim'
+        Plug 'ctrlpvim/ctrlp.vim'
+        if version >= 704
+            Plug 'tpope/vim-fugitive'
+        endif
+        if version >= 800 || has('nvim')
+            Plug 'skywind3000/asyncrun.vim'
+            Plug 'mg979/vim-visual-multi'
+        endif
+        Plug 't9md/vim-textmanip'
+        if executable('ctags')
+            Plug 'preservim/tagbar'
+        endif
+        if executable('latexmk')
+            Plug 'lervag/vimtex'
+        endif
+        if !has('win32')
+            Plug 'metakirby5/codi.vim'
+        endif
+        Plug 'ashfinal/vim-one'
+        if version >= 800 || has('nvim')
+            Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        else
+            if version >= 703 && has('lua')
+                Plug 'Shougo/neocomplete.vim'
+            endif
+        endif
 call plug#end()
 
 " no clear screen when exit vim
@@ -52,7 +97,7 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 
 " 设置 leader 键，例子为空号键，也可以设置为其他的 默认为"/"
-let mapleader=" "
+let mapleader="\\"
 
 " 设置快捷键，关闭一个窗口
 map <leader>wq :wq<CR>
@@ -352,3 +397,79 @@ let g:go_info_mode='gopls'
 "let g:ale_linters = {
 "  \ 'go': ['gopls'],
 "  \}
+
+"colorscheme molokai
+"let g:molokai_original = 1
+colorscheme gruvbox
+set background=dark    " Setting dark mode
+se t_Co=256
+
+set title
+set ttyfast " Improves smoothness of redrawing
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+
+set t_Co=256 " using 256 colors
+set t_ti= t_te= " put terminal in 'termcap' mode
+set guicursor+=a:blinkon0 " no cursor blink
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+set fileencodings=ucs-bom,utf-8,default,cp936,big5,latin1
+
+" Use Unix as the standard file type
+set fileformats=unix,mac,dos
+
+set ambiwidth=double
+" For regular expressions turn magic on
+set magic
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch
+
+"You can specify a custom ag name and path in your .vimrc like so:
+
+"let g:ag_prg="<custom-ag-path-goes-here> --vimgrep"
+"You can configure ag.vim to always start searching from your project root
+"instead of the cwd
+let g:ag_working_path_mode="r"
+" for easy using sliver search
+nmap <leader>f :norm yiw<CR>:Ag! -t -Q "<C-R>""
+"
+nmap <leader>r :norm yiw<CR>:Ag! -t "\b<C-R>"\b"
+
+
+" Locate and return character "above" current cursor position.
+function! LookUpwards()
+    let column_num = virtcol('.')
+    let target_pattern = '\%' . column_num . 'v.'
+    let target_line_num = search(target_pattern . '*\S', 'bnW')
+
+
+    if !target_line_num
+        return ""
+    else
+        return matchstr(getline(target_line_num), target_pattern)
+    endif
+endfunction
+
+
+imap <silent> <C-Y> <C-R><C-R>=LookUpwards()<CR>
