@@ -1,4 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
+	Plug 'jeffkreeftmeijer/vim-numbertoggle'
 	Plug 'mhinz/vim-startify'
 	Plug 'rking/ag.vim'
 	Plug 'scrooloose/nerdtree'
@@ -445,6 +446,8 @@ set hlsearch
 
 " Makes search act like search in modern browsers
 set incsearch
+
+set number relativenumber
 
 "You can specify a custom ag name and path in your .vimrc like so:
 
