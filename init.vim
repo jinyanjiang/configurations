@@ -1,4 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
+	Plug 'mhinz/vim-startify'
 	Plug 'rking/ag.vim'
 	Plug 'scrooloose/nerdtree'
 	Plug 'majutsushi/tagbar'
