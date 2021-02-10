@@ -1,4 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
+	Plug 'w0rp/ale'
 	Plug 'jeffkreeftmeijer/vim-numbertoggle'
 	Plug 'mhinz/vim-startify'
 	Plug 'rking/ag.vim'
@@ -68,7 +69,7 @@ set t_ti= t_te=
 let g:gutentags_add_default_project_roots = 0
 
 " gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.project', '.ccls']
 
 
 " " 所生成的数据文件的名称 "
@@ -107,7 +108,7 @@ map <leader>wq :wq<CR>
 nnoremap <C-G> :Files<CR>
 "nnoremap <C-P> :GFiles --exclude-standard --cached --others<CR>
 nnoremap <C-B> :Buffers<CR>
-nnoremap <C-T> :Tags<CR>
+"nnoremap <C-T> :Tags<CR>
 
 " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
@@ -307,7 +308,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
@@ -396,9 +397,26 @@ let g:godef_split=2
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 
-"let g:ale_linters = {
-"  \ 'go': ['gopls'],
-"  \}
+"let g:ale_c_always_make = 1
+"let g:ale_c_build_dir_names = 1
+"let g:ale_c_build_dir = 1
+"let g:ale_c_parse_makefile = 1
+"let g:ale_c_parse_compile_commands = 1
+""\ 'c': ['ccls'],
+
+let g:ale_linters = {
+  \ 'go': ['gopls'],
+  \ 'c': ['ccls'],
+  \}
+
+let s:coc_extensions = [
+       \ 'coc-todolist',
+       \ 'coc-ccls',
+       \]
+
+for extension in s:coc_extensions
+    call coc#add_extension(extension)
+endfor
 
 "colorscheme molokai
 "let g:molokai_original = 1

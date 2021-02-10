@@ -56,8 +56,8 @@ call plug#end()
   "languageserver": {
     "ccls": {
       "command": "ccls",
-      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls-cache"
@@ -81,9 +81,26 @@ call plug#end()
 }
 
 CocInstall coc-go
+CocInstall coc-ccls
+
+set -x
+existing=~/.config/coc/extensions/node_modules/coc-ccls/node_modules/ws/lib/extension.js
+missing=~/.config/coc/extensions/node_modules/coc-ccls/lib/extension.js
+if [[ -e "$existing" && ! -e "$missing" ]]; then
+  mkdir -p "$(dirname "$missing")"
+  ln -s "$existing" "$missing"
+fi
+set +x
+
+两个set之间的一段是为了解决如下错误。
+[coc.nvim] Unable to load global extension at /root/.config/coc/extensions/node_modules/coc-ccls: main file ./lib/extension.js not found, you may need to build the project.
 
 在源码工程目录下：
 echo "clang++\n%cpp -std=c++17\n-Iheaders" > .ccls
+
+kernel的coc tags要用
+make 
+scripts/clang-tools/gen_compile_commands.py
 
 touch .root
 /*有.git就不需要，详见vimrc tags配置。*/
